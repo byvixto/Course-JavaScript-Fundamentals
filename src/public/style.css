@@ -18,7 +18,7 @@ body {
   width: 100%;
   max-width: 900px;
   padding: 32px;
-} 
+}
 h1 {
   text-align: center;
   margin-bottom: 24px;
@@ -52,7 +52,7 @@ h1 {
 .teams-form button {
   background: #2563eb;
   color: white;
-} 
+}
 .scoreboard {
   display: flex;
   justify-content: center;

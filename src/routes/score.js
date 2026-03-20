@@ -98,16 +98,16 @@ router.post('/reset', (req, res) => {
 router.post('/point', (req, res) => {
     res.json(scoreBoard);
     const { team } = req.body;
-    if (team == 'home') {
-        scoreBoard.homeScore += 1;
+    
 
-    }
-    else if (team == 'away') {
-        scoreBoard.awayScore += 1;
-    }
-    else {
-        return res.status(400).json(
-            {
+
+
+
+
+
+
+
+    
                 error: 'team deve ser home ou away'
             }
         )

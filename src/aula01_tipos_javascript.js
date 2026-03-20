@@ -11,15 +11,14 @@
     return typeof tipoRecebido
 } */
 function identificarTipo(tipoRecebido) {
-    console.log(tipoRecebido)
+  console.log(tipoRecebido);
 
-console.log(typeof tipoRecebido)
-const valorConvertido =JSON.parse(tipoRecebido)
-     if (Array.isArray(valorConvertido)) {
-        return "isso aqui é um array, eu to verificando"
-    }
-    else {return "nenhum desses tipos é um array"}
-    
-
+  console.log(typeof tipoRecebido);
+  const valorConvertido = JSON.parse(tipoRecebido);
+  if (Array.isArray(valorConvertido)) {
+    return 'isso aqui é um array, eu to verificando';
+  } else {
+    return 'nenhum desses tipos é um array';
+  }
 }
-module.exports={identificarTipo}
+module.exports = { identificarTipo };

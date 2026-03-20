@@ -1,8 +1,8 @@
 const homeScore = document.getElementById('homeScore');
-const resetBtn = document.getElementById("resetBtn");
+const resetBtn = document.getElementById('resetBtn');
 
 async function fetchScoreboard() {
-try {
+  try {
     const response = await fetch('http://localhost:3000/api/score/buscar');
 
     console.log('status:', response.status);
@@ -13,9 +13,7 @@ try {
 
     const data = JSON.parse(text);
 
-   
     document.getElementById('homeScore').textContent = data.homeScore;
-    
   } catch (error) {
     console.error('erro ao buscar placar:', error);
   }
@@ -23,13 +21,12 @@ try {
 
 fetchScoreboard();
 async function resetScore() {
-    const response = await fetch('/api/score/reset', {
-        method: 'POST'
-    });
-    const data = await response.json();
-    console.log(data);
-    fetchScoreboard();
-
+  const response = await fetch('/api/score/reset', {
+    method: 'POST',
+  });
+  const data = await response.json();
+  console.log(data);
+  fetchScoreboard();
 }
 resetBtn.addEventListener('click', resetScore);
 
