@@ -1,0 +1,95 @@
+https://google.com
+1° aplicação - http
+O browser cria uma requisição http
+2° Camada de tranporte - TCP
+TCP abre uma conexão confiavel
+3° Camada de rede - ip
+O IP encontra o endereço do servidor
+4° Camada física (enlace) - Ethernet ou WI-Fi
+Os dados passam pelos cabos e Wi-fi
+
+O protocolo HTTP-
+é um protocolo que se chama: Hypertext transfer protocol
+ele define como as requiseções são estruturadas
+o http segue um modelo cliente servidor
+o cliente envia uma requisição http, o servidor processa e envia uma resposta http
+como é uma requisição http? -
+1- Método
+2- URL
+3- headers
+4- Body(opcional)
+
+
+Exemplo: 
+o verbo (metódo) é um POST ou GET PUT DELETE PATCH 
+A URL pode ser https://api.sp.com
+Chamamos de URL ou POST
+O tipo de header que eu posso receber:
+O contenty-type:aplication/json 
+pode ser outros tipos: application/text, form-data
+Podemos determinar o que vamos enviar e o que vamos receber
+
+O body pode ser: json- objeto serializado em texto
+o body pode ser: um texto convencional
+o body pode ser: um form data
+o body pode ser: .excel, .csv, .zip, .exe, .png, jpg., .mp4
+
+
+{
+	"homeTeam": "team a",
+	"awayTeam": "team b",
+	"homeScore": 0,
+	"awayScore": 0
+}
+
+
+
+
+O protocolo tem status: code- status pra indicar o que aconteceu no servidor
+
+Status Codes
+1xx — Informacional
+100 Continue
+2xx — Sucesso
+200 OK
+201 Created
+204 No Content
+3xx — Redirecionamento
+301 Moved Permanently
+302 Found
+4xx — Erro do cliente
+400 Bad Request
+401 Unauthorized
+403 Forbidden
+404 Not Found
+5xx — Erro do servidor
+500 Internal Server Error
+502 Bad Gateway
+503 Service Unavailable
+
+- O Https é um serviço stateless
+stateless- cada requisição é independente
+o servidor não lembra do cliente automaticamente
+Precisamos de autenticação-
+-session
+-tokens(JWT)
+
+A diferença entre o http e o https
+
+HTTPS usa TLS/SSL para criptografia
+e ele roda na porta 443
+
+- O Que acontece quando você digita uma URL no navegador (DNS-TCP-HTTP-renderização)
+- o que muda, é que ele vem com o formato texto, e o insomina não vai haver renderização
+
+
+
+
+
+Métodos HTTP principais
+Método    Uso
+GET    buscar dados
+POST    criar recurso
+PUT    atualizar recurso
+PATCH    atualização parcial
+DELETE    remover recurso

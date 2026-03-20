@@ -1,0 +1,20 @@
+{
+  "name": "curso_mentoria_2026",
+  "version": "1.0.0",
+  "description": "curso para desenvolver um jogo com servidor express",
+  "license": "ISC",
+  "author": "victor",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <main class="container">
+        <h1>
+            placar da partida
+        </h1>
+        <section class="teams-form">
+            <input type="text" name="homeTeam" id="homeTeamInput" placeholder="nome do time A">
+            <input type="text" name="awayTeam" id="awayTeamInput" placeholder="nome do time B">
+            <button id="salvarTeamBtn">
+                salvar nomes
+            </button>
+        </section>
+        <section class="scoreboard">
+            <div class="team-card">
+                <h2 id="homeTeamName">Time A</h2>
+                <p class="score" id="homeScore">0</p>
+                <div class="actions"><button id="homeAdd">+1</button><button id="homeRemove">-1</button></div>
+            </div>
+            <div class="versus">X</div>
+            <div class="team-card">
+                <h2 id="awayTeamName">Time A</h2>
+                <p class="score" id="awayScore">0</p>
+                <div class="actions"><button id="awayAdd">+1</button><button id="awayRemove">-1</button></div>
+            </div>
+            <section class="footer">
+                <button id="resetBtn"class="reset">resetar placar</button>
+            </section>
+    </main>
+</body>
+<script src="/app.js"></script>
+
+</html>
