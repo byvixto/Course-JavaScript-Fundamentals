@@ -6,6 +6,11 @@ const awayTeamInput = document.getElementById('awayTeamInput');
 //atribuir o nome
 const homeTeamName = document.getElementById('homeTeamName');
 const awayTeamName = document.getElementById('awayTeamName');
+//declarar 4 botões
+const homeAdd = document.getElementById('homeAdd');
+const homeRemove = document.getElementById('homeRemove');
+const awayAdd = document.getElementById('awayAdd');
+const awayRemove = document.getElementById('awayRemove');
 
 async function fetchScoreboard() {
   try {
@@ -20,6 +25,7 @@ async function fetchScoreboard() {
     const data = JSON.parse(text);
 
     document.getElementById('homeScore').textContent = data.homeScore;
+    document.getElementById('awayScore').textContent = data.awayScore;
   } catch (error) {
     console.error('erro ao buscar placar:', error);
   }
@@ -64,3 +70,64 @@ async function salvarTeam() {
   awayTeamName.textContent = data.awayTeam;
 }
 salvarTeamBtn.addEventListener('click', salvarTeam);
+
+async function addPoint(team) {
+  const response = await fetch('/api/score/point', {
+    method: 'POST',
+    body: JSON.stringify({
+      team: team, // 'home'||'away'
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+  console.log(data);
+
+  fetchScoreboard();
+}
+
+async function removePoint(team) {
+  const response = await fetch('/api/score/remove', {
+    method: 'POST',
+    body: JSON.stringify({
+      team: team,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const data = await response.json();
+  console.log(data);
+
+  fetchScoreboard();
+}
+async function updatePoint(team, action) {
+  if (team === 'home') {
+    if (action === 'add') {
+      addPoint(team);
+      console.log("adicionando pontos para o time home")
+    }
+    if (action === 'remove') {
+      removePoint(team);
+      console.log("removendo pontos para o time home")
+    }
+  } else if (team === 'away') {
+    if (action === 'add') {
+      addPoint(team);
+       console.log("adicionando pontos para o time away")
+    }
+    if (action === 'remove') {
+      removePoint(team);
+      console.log("removendo pontos para o time away")
+
+    }
+  }
+}
+
+homeAdd.addEventListener('click', () => updatePoint('home', 'add'));
+homeRemove.addEventListener('click', () => removePoint('home', 'remove'));
+
+awayAdd.addEventListener('click', () => updatePoint('away', 'add'));
+awayRemove.addEventListener('click', () => removePoint('away', 'remove'));
