@@ -1,5 +1,11 @@
 const homeScore = document.getElementById('homeScore');
 const resetBtn = document.getElementById('resetBtn');
+const salvarTeamBtn = document.getElementById('salvarTeamBtn');
+const homeTeamInput = document.getElementById('homeTeamInput');
+const awayTeamInput = document.getElementById('awayTeamInput');
+//atribuir o nome
+const homeTeamName = document.getElementById('homeTeamName');
+const awayTeamName = document.getElementById('awayTeamName');
 
 async function fetchScoreboard() {
   try {
@@ -30,4 +36,31 @@ async function resetScore() {
 }
 resetBtn.addEventListener('click', resetScore);
 
-fetchScoreBoard();
+async function salvarTeam() {
+  console.log('funcionando');
+
+  const homeTeam = homeTeamInput.value.trim();
+  const awayTeam = awayTeamInput.value.trim();
+
+  console.log(homeTeam);
+  console.log(awayTeam);
+  if (!homeTeam || !awayTeam) {
+    alert('preencha o nome dos dois times');
+    return;
+  }
+  const response = await fetch('/api/score/teams', {
+    method: 'POST',
+    body: JSON.stringify({
+      homeTeam: homeTeam,
+      awayTeam: awayTeam,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+  console.log(data);
+  homeTeamName.textContent = data.homeTeam;
+  awayTeamName.textContent = data.awayTeam;
+}
+salvarTeamBtn.addEventListener('click', salvarTeam);

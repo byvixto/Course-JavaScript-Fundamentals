@@ -24,11 +24,11 @@ router.post('/teams', (req, res) => {
   const { homeTeam, awayTeam } = req.body;
 
   if (homeTeam) {
-    scoreBoard.homeTeam = homeTeam;
+    scoreBoard.homeTeam = " time "+homeTeam;
   }
 
   if (awayTeam) {
-    scoreBoard.awayTeam = awayTeam;
+    scoreBoard.awayTeam = " time "+awayTeam;
   }
 
   res.status(200).json(scoreBoard);
