@@ -1,20 +1,26 @@
 const express = require('express');
+const { MatchService } = require('../service/matchService');
 
 class ScoreController {
   constructor() {
+    this.matchService = new MatchService();
     this.router = express.Router();
+this.registerRoutes();
+
+
+
   }
 
   registerRoutes() {
     this.router.post('/point', this.addPoint.bind(this));
-    this.router.get('/buscar', this.getScoreBoard.bind(this));
+    /* this.router.get('/buscar', this.getScoreBoard.bind(this));
     this.router.post('/teams', this.updateTeams.bind(this));
     this.router.post('/reset', this.resetScoreBoard.bind(this));
     this.router.post('/point', this.addPoint.bind(this));
     this.router.post('/remove', this.removePoint.bind(this));
     this.router.post('/timer/start', this.startTimer.bind(this));
     this.router.post('/timer/pause', this.pauseTimer.bind(this));
-    this.router.post('/timer/reset', this.resetTimer.bind(this));
+    this.router.post('/timer/reset', this.resetTimer.bind(this)); */
   }
   sendResult(res, result) {
     if (result.payload) {

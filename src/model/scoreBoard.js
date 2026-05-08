@@ -4,8 +4,7 @@ class ScoreBoard {
     awayTeam = 'time Visitante',
     homeScore = 0,
     awayScore = 0
-  ) 
-  {
+  ) {
     this.homeTeam = homeTeam;
     this.homeScore = homeScore;
     this.awayTeam = awayTeam;
@@ -19,6 +18,14 @@ class ScoreBoard {
       this.awayScore += 1;
     }
   }
+  toJSON() {
+    return {
+      homeTeam: this.homeTeam,
+      awayTeam: this.awayTeam,
+      homeScore: this.homeScore,
+      awayScore: this.awayScore,
+    };
+  }
 
   removePoint(team) {
     if (team === 'home') {
@@ -28,4 +35,4 @@ class ScoreBoard {
     }
   }
 }
-module.exports = ScoreBoard
+module.exports = {ScoreBoard};

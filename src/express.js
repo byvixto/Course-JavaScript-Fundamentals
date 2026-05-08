@@ -1,13 +1,21 @@
-const scoreRoutes = require('./routes/score');
+const scoreRoutes = require('./controller/scoreController');
 const path = require('path');
 const express = require('express');
-const app = express();
-const PORT = 3000;
+class AppServer {
+  constructor() {
+    this.app = express();
+    this.configureRoutes();
+  }
+  configureRoutes() {
+    this.app.use(express.json());
 
-app.use(express.json());
+    //API
+    this.app.use('/api/score', scoreRoutes);
 
-//API
-app.use('/api/score', scoreRoutes);
+    this.app.use(express.static(path.join(__dirname, 'public')));
+  }
+}
+const appserver = new AppServer();
 
-app.use(express.static(path.join(__dirname, 'public')));
-module.exports = app;
+module.exports = appserver.app;
+module.exports.AppServer = AppServer;
