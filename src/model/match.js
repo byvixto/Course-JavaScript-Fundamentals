@@ -65,7 +65,7 @@ class Match {
     this.timer.endedAt = now;
 
     // Armazena quem venceu a partida
-    this.winner = getWinner;
+    this.winner = getWinner();
   }
 
   // Método responsável por reiniciar o cronômetro

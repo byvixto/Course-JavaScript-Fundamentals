@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Placar da Partida</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
 </head>
 
@@ -13,6 +16,16 @@
         <h1>
             placar da partida
         </h1>
+        <section class="timer-section">
+            <p class="timer-label">tempo restante</p>
+            <div class="timer-display" id="timerDisplay">05:00</div>
+            <p class="winner-banner" id="winnerBanner"></p>
+            <div class="timer-actions">
+                <button id="timerStartBtn" class="timer-btn start">iniciar</button>
+                <button id="timerPauseBtn" class="timer-btn pause">pausar</button>
+                <button id="timerResetBtn" class="timer-btn reset-timer">reiniciar tempo</button>
+            </div>
+        </section>
         <section class="teams-form">
             <input type="text" name="homeTeam" id="homeTeamInput" placeholder="nome do time A">
             <input type="text" name="awayTeam" id="awayTeamInput" placeholder="nome do time B">
@@ -32,9 +45,10 @@
                 <p class="score" id="awayScore">0</p>
                 <div class="actions"><button id="awayAdd">+1</button><button id="awayRemove">-1</button></div>
             </div>
-            <section class="footer">
-                <button id="resetBtn"class="reset">resetar placar</button>
-            </section>
+        </section>
+        <section class="footer">
+            <button id="resetBtn" class="reset">resetar placar</button>
+        </section>
     </main>
 </body>
 <script src="/app.js"></script>

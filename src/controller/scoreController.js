@@ -1,5 +1,6 @@
 const express = require('express');
 const { MatchService } = require('../service/matchService');
+
 class ScoreController {
   constructor() {
     this.router = express.Router();
@@ -13,14 +14,16 @@ class ScoreController {
     this.router.get('/scoreboard', this.getScoreBoard.bind(this));
     this.router.post('/teams', this.updateTeams.bind(this));
     this.router.post('/remove', this.removePoint.bind(this));
-    //this.router.post('/timer/start', this.startTimer.bind(this));
-    //this.router.post('/timer/pause', this.pauseTimer.bind(this));
-    //this.router.post('/timer/reset', this.resetTimer.bind(this));//
+    this.router.post('/reset', this.resetScoreBoard.bind(this));
+    this.router.post('/timer/start', this.startTimer.bind(this));
+    this.router.post('/timer/pause', this.pauseTimer.bind(this));
+    this.router.post('/timer/reset', this.resetTimer.bind(this));
   }
+
   sendResult(res, result) {
     console.log(result);
     if (result) {
-      return res.status(result).json(result);
+      return res.status(result.status).json(result);
     }
 
     return res.status(result.status).json({
@@ -36,7 +39,7 @@ class ScoreController {
   updateTeams(req, res) {
     return this.sendResult(
       res,
-      this.matchService.updateTeams(req.body.homeTeam, req.body.awayTeam)
+      this.matchService.updateTeams(req.body.homeTeam, req.body.awayTeam),
     );
   }
 
@@ -52,7 +55,7 @@ class ScoreController {
     return this.sendResult(res, this.matchService.removePoint(req.body.team));
   }
 
-  /*startTimer(req, res) {
+  startTimer(req, res) {
     return this.sendResult(res, this.matchService.startTimer());
   }
 
@@ -62,7 +65,7 @@ class ScoreController {
 
   resetTimer(req, res) {
     return this.sendResult(res, this.matchService.resetTimer());
-}*/
+  }
 }
 
 const scoreController = new ScoreController();

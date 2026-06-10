@@ -13,9 +13,11 @@ function createInitialScoreBoard() {
     awayScore: 0,
   };
 }
+
 function resetInternalScoreBoard() {
   scoreBoard = createInitialScoreBoard();
 }
+
 router.get('/buscar', (req, res) => {
   res.status(200).json(scoreBoard);
 });
@@ -24,11 +26,11 @@ router.post('/teams', (req, res) => {
   const { homeTeam, awayTeam } = req.body;
 
   if (homeTeam) {
-    scoreBoard.homeTeam = " time " + homeTeam;
+    scoreBoard.homeTeam = ' time ' + homeTeam;
   }
 
   if (awayTeam) {
-    scoreBoard.awayTeam = " time " + awayTeam;
+    scoreBoard.awayTeam = ' time ' + awayTeam;
   }
 
   res.status(200).json(scoreBoard);

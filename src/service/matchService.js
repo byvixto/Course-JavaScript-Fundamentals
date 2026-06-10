@@ -12,7 +12,7 @@ class MatchService {
     this.match = new Match();
     this.match.timer = this.match.createTimer(this.durationSeconds);
     this.matchTimerService = new MatchTimerService(this.match, () =>
-      this.getWinner()
+      this.getWinner(),
     );
   }
 
@@ -22,36 +22,17 @@ class MatchService {
 
     return {
       success: true,
-      message: "placar da partida",
+      message: 'placar da partida',
       scoreBoard: this.match.scoreBoard,
       timer: this.match.timer,
       winner: this.match.winner,
     };
   }
 
-  // Adiciona um ponto para o time informado
   addPoint(team) {
-
-    // Valida se o time informado existe e é válido
-    const validation = new MatchValidator().validateTeam(team);
-
-    // Se o time for inválido, retorna erro 400 (Bad Request)
-    if (!validation.valid) {
-      return {
-        success: false,
-        status: HttpStatus.BAD_REQUEST,
-        error: validation.error
-      };
-    }
-
-    // Atualiza o estado do timer antes de registrar o ponto
-    // Ex: verificar se o tempo acabou, sincronizar cronômetro etc.
     this.matchTimerService.syncTimerState();
 
-    // Verifica se a partida já terminou
     if (this.match.timer.endedAt) {
-
-      // Se terminou, impede que novos pontos sejam adicionados
       return {
         valid: false,
         error: 'A partida terminou. Resete o placar para iniciar uma nova partida.',
@@ -59,10 +40,8 @@ class MatchService {
     }
 
 
-    // Adiciona um ponto ao time escolhido
     this.match.scoreBoard.addPoint(team);
 
-    // Retorna sucesso
     return {
       success: true,
       message: 'Ponto adicionado com sucesso.',
@@ -72,6 +51,7 @@ class MatchService {
       winner: this.match.winner,
     };
   }
+
   updateTeams(homeTeam, awayTeam) {
     console.log('Atualizando times:', { homeTeam, awayTeam });
     const validation =
@@ -81,7 +61,7 @@ class MatchService {
       return {
         success: false,
         status: 400,
-        error: validation.error
+        error: validation.error,
       };
     }
 
@@ -91,7 +71,7 @@ class MatchService {
       return {
         success: false,
         status: 400,
-        error: 'A partida foi encerrada.'
+        error: 'A partida foi encerrada.',
       };
     }
 
@@ -106,20 +86,13 @@ class MatchService {
       winner: this.match.winner,
     };
   }
+
   removePoint(team) {
-    const validation = new MatchValidator().validateTeam(team);
-    if (!validation.valid) {
-      return {
-        success: false,
-        status: 400,
-        error: validation.error
-      };
-    }
     this.matchTimerService.syncTimerState();
     if (this.match.timer.endedAt) {
       return {
         valid: false,
-        error: "A partida terminou. Resete o placar para iniciar uma nova partida.",
+        error: 'A partida terminou. Resete o placar para iniciar uma nova partida.',
       };
     }
     this.match.scoreBoard.removePoint(team);
@@ -130,8 +103,85 @@ class MatchService {
       scoreBoard: this.match.scoreBoard,
       timer: this.match.timer,
       winner: this.match.winner,
-    }
+    };
   };
+
+  resetScoreBoard() {
+    this.resetState();
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Placar reiniciado com sucesso.',
+      scoreBoard: this.match.scoreBoard,
+      timer: this.match.timer,
+      winner: this.match.winner,
+    };
+  }
+
+  startTimer() {
+    this.matchTimerService.syncTimerState();
+    const timer = this.match.timer;
+
+    if (timer.endedAt) {
+      return {
+        success: false,
+        status: 400,
+        error: 'A partida terminou. Resete o placar para iniciar uma nova partida.',
+      };
+    }
+
+    if (!timer.isRunning) {
+      if (timer.remainingSeconds !== null) {
+        timer.durationSeconds = timer.remainingSeconds;
+      }
+      timer.startedAt = Date.now();
+      timer.isRunning = true;
+    }
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Cronômetro iniciado.',
+      scoreBoard: this.match.scoreBoard,
+      timer: this.match.timer,
+      winner: this.match.winner,
+    };
+  }
+
+  pauseTimer() {
+    this.matchTimerService.syncTimerState();
+    const timer = this.match.timer;
+
+    if (timer.isRunning) {
+      timer.isRunning = false;
+      timer.startedAt = null;
+    }
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Cronômetro pausado.',
+      scoreBoard: this.match.scoreBoard,
+      timer: this.match.timer,
+      winner: this.match.winner,
+    };
+  }
+
+  resetTimer() {
+    this.match.resetTimer();
+    this.match.winner = null;
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Cronômetro reiniciado.',
+      scoreBoard: this.match.scoreBoard,
+      timer: this.match.timer,
+      winner: this.match.winner,
+    };
+  }
+
   getWinner() {
     if (this.match.scoreBoard.homeScore > this.match.scoreBoard.awayScore) {
       return {
@@ -155,9 +205,9 @@ class MatchService {
       label: 'Partida empatada',
     };
   }
-};
+}
 module.exports = {
-  MatchService
+  MatchService,
 };
 
 
