@@ -3,7 +3,7 @@ class ScoreBoard {
     homeTeam = 'time Da Casa',
     awayTeam = 'time Visitante',
     homeScore = 0,
-    awayScore = 0
+    awayScore = 0,
   ) {
     this.homeTeam = homeTeam;
     this.homeScore = homeScore;
@@ -18,12 +18,13 @@ class ScoreBoard {
       this.awayScore += 1;
     }
   }
+
   updateTeams(homeTeam, awayTeam) {
     if (homeTeam) {
       this.homeTeam = homeTeam;
     }
     if (awayTeam) {
-      this.awayTeam = awayTeam
+      this.awayTeam = awayTeam;
     }
   }
 
@@ -36,6 +37,7 @@ class ScoreBoard {
   }
 
 }
+
 module.exports = {
-  ScoreBoard
+  ScoreBoard,
 };

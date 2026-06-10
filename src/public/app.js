@@ -11,6 +11,33 @@ const homeAdd = document.getElementById('homeAdd');
 const homeRemove = document.getElementById('homeRemove');
 const awayAdd = document.getElementById('awayAdd');
 const awayRemove = document.getElementById('awayRemove');
+//cronômetro
+const timerDisplay = document.getElementById('timerDisplay');
+const winnerBanner = document.getElementById('winnerBanner');
+const timerStartBtn = document.getElementById('timerStartBtn');
+const timerPauseBtn = document.getElementById('timerPauseBtn');
+const timerResetBtn = document.getElementById('timerResetBtn');
+
+function formatTime(totalSeconds) {
+  const seconds = Math.max(0, totalSeconds ?? 0);
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+}
+
+function updateTimer(timer, winner) {
+  const seconds = timer.remainingSeconds ?? timer.durationSeconds;
+  timerDisplay.textContent = formatTime(seconds);
+
+  timerStartBtn.disabled = timer.isRunning || Boolean(timer.endedAt);
+  timerPauseBtn.disabled = !timer.isRunning;
+
+  if (timer.endedAt && winner) {
+    winnerBanner.textContent = winner.label;
+  } else {
+    winnerBanner.textContent = '';
+  }
+}
 
 async function fetchScoreboard() {
   try {
@@ -24,14 +51,32 @@ async function fetchScoreboard() {
 
     const data = JSON.parse(text);
 
-    document.getElementById('homeScore').textContent = data.homeScore;
-    document.getElementById('awayScore').textContent = data.awayScore;
+    document.getElementById('homeScore').textContent = data.scoreBoard.homeScore;
+    document.getElementById('awayScore').textContent = data.scoreBoard.awayScore;
+    document.getElementById('homeTeamName').textContent = data.scoreBoard.homeTeam;
+    document.getElementById('awayTeamName').textContent = data.scoreBoard.awayTeam;
+    updateTimer(data.timer, data.winner);
   } catch (error) {
     console.error('erro ao buscar placar:', error);
   }
 }
 
 fetchScoreboard();
+setInterval(fetchScoreboard, 1000);
+
+async function timerAction(action) {
+  const response = await fetch(`/api/score/timer/${action}`, {
+    method: 'POST',
+  });
+  const data = await response.json();
+  console.log(data);
+  fetchScoreboard();
+}
+
+timerStartBtn.addEventListener('click', () => timerAction('start'));
+timerPauseBtn.addEventListener('click', () => timerAction('pause'));
+timerResetBtn.addEventListener('click', () => timerAction('reset'));
+
 async function resetScore() {
   const response = await fetch('/api/score/reset', {
     method: 'POST',
@@ -40,6 +85,7 @@ async function resetScore() {
   console.log(data);
   fetchScoreboard();
 }
+
 resetBtn.addEventListener('click', resetScore);
 
 async function salvarTeam() {
@@ -66,9 +112,10 @@ async function salvarTeam() {
   });
   const data = await response.json();
   console.log(data);
-  homeTeamName.textContent = data.homeTeam;
-  awayTeamName.textContent = data.awayTeam;
+  homeTeamName.textContent = data.scoreBoard.homeTeam;
+  awayTeamName.textContent = data.scoreBoard.awayTeam;
 }
+
 salvarTeamBtn.addEventListener('click', salvarTeam);
 
 async function addPoint(team) {
@@ -103,26 +150,15 @@ async function removePoint(team) {
 
   fetchScoreboard();
 }
-async function updatePoint(team, action) {
-  if (team === 'home') {
-    if (action === 'add') {
-      addPoint(team);
-      console.log("adicionando pontos para o time home")
-    }
-    if (action === 'remove') {
-      removePoint(team);
-      console.log("removendo pontos para o time home")
-    }
-  } else if (team === 'away') {
-    if (action === 'add') {
-      addPoint(team);
-      console.log("adicionando pontos para o time away")
-    }
-    if (action === 'remove') {
-      removePoint(team);
-      console.log("removendo pontos para o time away")
 
-    }
+async function updatePoint(team, action) {
+  if (action === 'add') {
+    addPoint(team);
+    console.log('adicionando pontos para o time home');
+  }
+  if (action === 'remove') {
+    removePoint(team);
+    console.log('removendo pontos para o time home');
   }
 }
 
